@@ -1,0 +1,52 @@
+﻿@using E_Market.Core.Application.ViewModels.User
+@model SaveUserViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<div class="row">
+    <div class="col-6 offset-3">
+        <h4 class="card-title mt-3 text-center">Crear usuario</h4>
+
+        <form method="post" asp-controller="Usuario" asp-action="Register">
+
+            <div class="mb-3">
+                <label asp-for="Nombre" class="form-label">Nombre: </label>
+                <input asp-for="Nombre" class="form-control">
+                <span asp-validation-for="Nombre" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label">Username: </label>
+                <input asp-for="UserName" class="form-control">
+                <span asp-validation-for="UserName" class="text-danger"></span>
+
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Contraseña: </label>
+                <input asp-for="Password" class="form-control">
+                <span asp-validation-for="Password" class="text-danger"></span>
+
+            </div>
+            <div class="mb-3">
+                <label asp-for="ConfirmPassword" class="form-label">Confirmar Contraseña: </label>
+                <input asp-for="ConfirmPassword" class="form-control">
+                <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+
+            <div class="mb-3">
+                <label asp-for="Email" class="form-label">Correo: </label>
+                <input  asp-for="Email" class="form-control">
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="mb-3">
+                <label asp-for="Telefono" class="form-label">Telefono: </label>
+                <input asp-for="Telefono" class="form-control">
+                <span asp-validation-for="Telefono" class="text-danger"></span>
+            </div>
+
+            <input type="hidden" asp-for="Id" />
+
+            <button type="submit" class="btn btn-primary">Iniciar seccion</button>
+            <a asp-controller="Usuario" asp-action="Index" class="btn btn-warning">Login</a>
+        </form>
+    </div>
+</div>

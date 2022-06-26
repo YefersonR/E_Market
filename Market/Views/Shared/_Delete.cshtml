@@ -1,0 +1,33 @@
+﻿
+@{
+    ViewData["Title"] = "_Delete";
+}
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+
+</head>
+<body>
+
+    <h1 class="text-center mt-3">Confirmar </h1>
+    <div class="container mt-1 d-flex justify-content-center ">
+        <div class="row ">
+            <div class="col-9 offset-2">
+                <div class="card">
+                    @RenderBody()
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+</body>
+</html>

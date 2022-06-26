@@ -1,0 +1,56 @@
+﻿@using E_Market.Core.Application.ViewModels.Anuncio;
+@using E_Market.Core.Application.ViewModels.Categoria;
+@model List<AnuncioViewModel>
+@{
+    ViewData["Title"] = "Inicio";
+}
+
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-3">
+                <form method="post" asp-controller="Home" asp-action="Index" >
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" value="null" type="radio" name="CategoriaId" id="categoria-all" />
+                            <label class="form-check-label" for="categoria-all">Todas</label>
+                        </div>
+                    </div>
+                    @foreach (CategoriaViewModel categoria in ViewBag.Categorias)
+                    {
+                        <div>
+                            <div class="form-check">
+                                <input class="form-check-input" value="@categoria.Id" type="radio" name="CategoriaId" id="categoria-@categoria.Id" />
+                                <label class="form-check-label" for="categoria-@categoria.Id">-@categoria.Nombre</label>
+                            </div>
+                        </div>
+                    }
+                    <button type="submit" class="btn btn-outline-info mt-3">Filtrar</button>
+                </form>
+          </div>
+                <div class="col-9">
+
+                    <div class="row">
+
+                        @foreach (AnuncioViewModel item in Model)
+                        {
+                            <div class="col-4 mb-3">
+                                <div class="card shadow-sm" >
+                                    <a asp-controller="Anuncio" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration:none; color:gray;">
+                                    <img src="@item.Imagen" class="img-product-size bd-placeholder-img card-img-top " />
+                                    <div class="card-body">
+                                        <h3>@item.Nombre</h3>
+                                        <p class="card-text">@item.Descripcion</p>
+                                        <div>
+                                            <small class="fw-bold">$@item.Precio</small>
+                                        </div>
+                                    </div>
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>

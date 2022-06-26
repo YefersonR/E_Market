@@ -1,0 +1,22 @@
+﻿@using E_Market.Core.Application.ViewModels.Anuncio;
+@model SaveAnuncioViewModel
+@{
+    ViewData["Title"] = "Eliminar producto";
+    Layout = "_Delete";
+
+}
+
+<div class="card-header">
+    <h4>¿Está seguro que quiere eliminar a @Model.Nombre ?</h4>
+</div>
+<div class="card-body">
+    <form method="post" asp-controller="Pokemon" asp-action="DeletePost">
+        <input type="hidden" asp-for="Id" />
+
+        <button type="submit" class="btn btn-danger">Eliminar</button>
+        <a asp-controller="Pokemon" asp-action="Index" class="btn btn-warning">Cancelar</a>
+
+    </form>
+</div>
+
+

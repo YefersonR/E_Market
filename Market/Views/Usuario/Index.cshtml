@@ -1,0 +1,23 @@
+﻿@using E_Market.Core.Application.ViewModels.User
+@model LoginViewModel
+@{
+    ViewData["Title"] = "Usuario";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+        <h4 class="card-title mt-3 text-center">Iniciar Seccion</h4>
+        @Html.ValidationSummary(false,"",new {  @class="text-danger" })
+        <form method="post" asp-controller="Usuario" asp-action="Index">
+            <div class="mb-3">
+                <label asp-for="UserName" class="form-label">Username: </label>
+                <input asp-for="UserName" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label asp-for="Password" class="form-label">Contraseña: </label>
+                <input asp-for="Password" class="form-control">
+            </div>
+
+        </form>
+    </div>
+</div>

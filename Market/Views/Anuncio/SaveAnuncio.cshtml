@@ -1,0 +1,57 @@
+﻿@using E_Market.Core.Application.ViewModels.Anuncio;
+@model SaveAnuncioViewModel
+@{
+    bool editMode = Model.Id == 0 ? true : false;
+    ViewData["Title"] = "Guardar producto";
+}
+
+<div class="row">
+    <div class="col-6 offset-3">
+                <h4 class="card-title mt-3 text-center">@(editMode ? "Creando un nuevo producto" : $"Editando el producto: {Model.Nombre}")</h4>
+            @if (Model.Categorias.Count == 0 || Model.Categorias == null)
+            {
+                <div>
+                    <h3 class="text-center alert-danger">Debe añadir categorias para poder crear un anuncio</h3>
+                    <a asp-controller="Anuncio" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </div>
+
+            }
+            else
+            {
+                    <form method="post" asp-controller="Anuncio" asp-action="@(editMode ? "Create" : "Edit")">
+
+                        <div class="mb-3">
+                            <label asp-for="Nombre" class="form-label">Nombre: </label>
+                            <input type="text" asp-for="Nombre" class="form-control">
+                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Descripcion" class="form-label">Descripcion: </label>
+                            <textarea asp-for="Descripcion" class="form-control"></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Imagen" class="form-label">Url de la imagen: </label>
+                            <input type="text" asp-for="Imagen" class="form-control">
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="Precio" class="form-label">Precio: </label>
+                            <input type="number" step="any" asp-for="Precio" class="form-control">
+                            <span asp-validation-for="Precio" class="text-danger"></span>
+                        </div>
+                        <div class="mb-3">
+                            <label asp-for="CategoriaId" class="form-label">Categoria: </label>
+                            <select asp-for="CategoriaId" asp-items="@(new SelectList(Model.Categorias, "Id", "Nombre"))" class="form-select">
+                                <option value="0">Seleccione una opcion</option>
+                            </select>
+                            <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                        </div>
+
+                        <input type="hidden" asp-for="Id" />
+
+                        <button type="submit" class="btn btn-primary">Guardar</button>
+                        <a asp-controller="Anuncio" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                    </form>
+            }
+    </div>
+</div>
+

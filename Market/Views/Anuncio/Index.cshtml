@@ -1,0 +1,41 @@
+﻿@using E_Market.Core.Application.ViewModels.Anuncio;
+@model List<AnuncioViewModel>
+@{
+    ViewData["Title"] = "Anuncio";
+}
+
+<div class="container-fluid">
+
+    <div class="row">
+        <div class="col-12">
+            <div class="row mb-3">
+                <h3 class="">Mis Anuncios</h3>
+                <div class="col-3 offset-10">
+                    <a class="btn btn-outline-success" asp-controller="Anuncio" asp-action="Create">Crear nuevo producto</a>
+                </div>
+            </div>
+            <div class="row">
+                @foreach (AnuncioViewModel item in Model)
+                {
+                    <div class="col-4 mb-3">
+                        <div class="card shadow-sm">
+                            <img src="@item.Imagen" class="img-product-size bd-placeholder-img card-img-top" />
+
+                            <div class="card-body">
+                                <h3>@item.Nombre - @item.Categoria </h3>
+                                <p class="card-text">@item.Descripcion</p>
+                                <div class="d-flex justify-content-between align-items-center">
+                                    <div class="btn-group">
+                                        <a asp-controller="Anuncio" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Editar</a>
+                                        <a asp-controller="Anuncio" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Borrar</a>
+                                    </div>
+                                    <small class="fw-bold">$@item.Precio</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
