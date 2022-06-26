@@ -8,15 +8,23 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using E_Market.Core.Application.Helpers;
+using Microsoft.AspNetCore.Http;
+using E_Market.Core.Application.ViewModels.User;
+
 
 namespace E_Market.Core.Application.Services
 {
     public class AnuncioService : IAnuncioService
     {
         public readonly IAnuncioRepository _anuncioRepository;
-        public AnuncioService(IAnuncioRepository anuncioRepository)
+        public readonly IHttpContextAccessor _ContextHttp;
+        public readonly UserViewModel _userVM;
+        public AnuncioService(IAnuncioRepository anuncioRepository, UserViewModel userVM)
         {
             _anuncioRepository = anuncioRepository;
+            _userVM = _ContextHttp.HttpContext.Session.Get<UserViewModel>("usuario");
+
         }
 
         public async Task Add(SaveAnuncioViewModel vm)
@@ -27,6 +35,7 @@ namespace E_Market.Core.Application.Services
             anuncio.Imagen = vm.Imagen;
             anuncio.Descripcion = vm.Descripcion;
             anuncio.CategoriaId = vm.CategoriaId;
+            anuncio.UserId = _userVM.Id;
 
             await _anuncioRepository.AddAsync(anuncio);
         }
@@ -40,7 +49,7 @@ namespace E_Market.Core.Application.Services
             anuncio.Imagen = vm.Imagen;
             anuncio.Descripcion = vm.Descripcion;
             anuncio.CategoriaId = vm.CategoriaId;
-            
+
             await _anuncioRepository.UpdateAsync(anuncio);
         }
 
@@ -48,6 +57,7 @@ namespace E_Market.Core.Application.Services
         {
             var anuncio = await _anuncioRepository.GetByIdAsync(id);
             await _anuncioRepository.DeleteAsync(anuncio);
+
         }
 
         public async Task<SaveAnuncioViewModel> GetByIdSaveViewModel(int id)
@@ -60,8 +70,23 @@ namespace E_Market.Core.Application.Services
             vm.Precio = anuncio.Precio;
             vm.Imagen = anuncio.Imagen;
             vm.CategoriaId = anuncio.CategoriaId;
-            
+
             return vm;
+        }
+        public async Task<List<AnuncioViewModel>> GetAllUserViewModel()
+        {
+            var list = await _anuncioRepository.GetAllWithIncludeAsync(new List<string> { "Categoria" });
+            return list.Where(anuncio=> anuncio.Id == _userVM.Id).Select(anuncio => new AnuncioViewModel
+            {
+                Id = anuncio.Id,
+                Nombre = anuncio.Nombre,
+                Descripcion = anuncio.Descripcion,
+                Precio = anuncio.Precio,
+                Imagen = anuncio.Imagen,
+                Categoria = anuncio.Categoria.Nombre,
+                CategoriaId = anuncio.Categoria.Id,
+
+            }).ToList();
         }
         public async Task<List<AnuncioViewModel>> GetAllViewModel()
         {
@@ -75,9 +100,9 @@ namespace E_Market.Core.Application.Services
                 Imagen = anuncio.Imagen,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
-                Created = anuncio.Created
-
-
+                Created = anuncio.Created,
+                CreatedBy = anuncio.CreatedBy
+                
 
             }).ToList();
         }
@@ -93,7 +118,9 @@ namespace E_Market.Core.Application.Services
                 Precio = anuncio.Precio,
                 Imagen = anuncio.Imagen,
                 Categoria = anuncio.Categoria.Nombre,
-                CategoriaId = anuncio.Categoria.Id
+                CategoriaId = anuncio.Categoria.Id,
+                Created = anuncio.Created,
+                CreatedBy = anuncio.CreatedBy
 
             })  .ToList();
             if (filter.CategoriaId != null)

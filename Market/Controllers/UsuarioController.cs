@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using E_Market.Core.Application.Helpers;
 
 namespace WebApp.Market.Controllers
 {
@@ -30,6 +31,7 @@ namespace WebApp.Market.Controllers
             UserViewModel userViewModel = await _userService.Login(loginVm);
             if(userViewModel != null)
             {
+                HttpContext.Session.Set<UserViewModel>("usuario",userViewModel);
                 return RedirectToRoute(new {controller ="Home", action="Index"});
             }
             else
@@ -52,6 +54,12 @@ namespace WebApp.Market.Controllers
             }
             await _userService.Add(register);
             return RedirectToRoute(new { controller = "Usuario", action = "Index" });
+        }
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("usuario");
+            return RedirectToRoute(new { controller = "Usuario", action = "Index" });
+
         }
     }
 }

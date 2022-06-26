@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace E_Market.Core.Application.ViewModels.Anuncio
 {
-    public class SaveAnuncioViewModel
+    public class SaveAnuncioViewModel 
     {
         public int Id { get; set; }
         [Required(ErrorMessage="Ingrese un nombre para el anuncio")]
@@ -21,8 +21,6 @@ namespace E_Market.Core.Application.ViewModels.Anuncio
         public double Precio { get; set; }
         [Range(1, int.MaxValue,ErrorMessage="Debe colocar una categoria validad")]
         public int CategoriaId { get; set; }
-        public DateTime Created { get; set; }
-
         public List<CategoriaViewModel> Categorias { get; set; } 
     }
 }

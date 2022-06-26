@@ -29,7 +29,13 @@
                                         <a asp-controller="Anuncio" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-outline-primary">Editar</a>
                                         <a asp-controller="Anuncio" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Borrar</a>
                                     </div>
-                                    <small class="fw-bold">$@item.Precio</small>
+                                    <div >
+                                        <small class="fw-bold">$@item.Precio</small>
+                                        <small class="fw-bold">$@item.Created</small>
+                                        <small class="fw-bold">$@item.CreatedBy</small>
+                                    </div>
+
+
                                 </div>
                             </div>
                         </div>

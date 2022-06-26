@@ -1,5 +1,6 @@
 ﻿using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.Services;
+using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using System;
@@ -17,7 +18,6 @@ namespace E_Market.Core.Application
             service.AddTransient<IAnuncioService, AnuncioService>();
             service.AddTransient<ICategoriaService, CategoriaService>();
             service.AddTransient<IUserService, UserService>();
-
 
         }
     }

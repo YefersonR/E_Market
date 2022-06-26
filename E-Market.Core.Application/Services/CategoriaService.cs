@@ -14,6 +14,7 @@ namespace E_Market.Core.Application.Services
     public class CategoriaService : ICategoriaService
     {
         public readonly ICategoriaRepository _categoriaRepository;
+
         public CategoriaService(ICategoriaRepository categoriaRepository)
         {
             _categoriaRepository = categoriaRepository;
@@ -35,6 +36,7 @@ namespace E_Market.Core.Application.Services
             categoria.Id = vm.Id;
             categoria.Nombre = vm.Nombre;
             categoria.Descripcion = vm.Descripcion;
+            
 
             await _categoriaRepository.UpdateAsync(categoria);
         }
