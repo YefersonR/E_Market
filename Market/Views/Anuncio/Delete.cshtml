@@ -1,7 +1,7 @@
 ﻿@using E_Market.Core.Application.ViewModels.Anuncio;
 @model SaveAnuncioViewModel
 @{
-    ViewData["Title"] = "Eliminar producto";
+    ViewData["Title"] = "Eliminar Anuncio";
     Layout = "_Delete";
 
 }
@@ -10,11 +10,11 @@
     <h4>¿Está seguro que quiere eliminar a @Model.Nombre ?</h4>
 </div>
 <div class="card-body">
-    <form method="post" asp-controller="Pokemon" asp-action="DeletePost">
+    <form method="post" asp-controller="Anuncio" asp-action="DeletePost">
         <input type="hidden" asp-for="Id" />
 
         <button type="submit" class="btn btn-danger">Eliminar</button>
-        <a asp-controller="Pokemon" asp-action="Index" class="btn btn-warning">Cancelar</a>
+        <a asp-controller="Anuncio" asp-action="Index" class="btn btn-warning">Cancelar</a>
 
     </form>
 </div>

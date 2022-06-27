@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace E_Market.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(E_MarketContext))]
-    [Migration("20220625031743_AddAuditablePropierties")]
-    partial class AddAuditablePropierties
+    [Migration("20220627202903_InitialMigration")]
+    partial class InitialMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -41,9 +41,6 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("FechaCreacion")
-                        .HasColumnType("datetime2");
-
                     b.Property<string>("Imagen")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -61,9 +58,14 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                     b.Property<double>("Precio")
                         .HasColumnType("float");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("CategoriaId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("Anuncios");
                 });
@@ -103,6 +105,52 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                     b.ToTable("Categorias");
                 });
 
+            modelBuilder.Entity("E_Market.Core.Domain.Entities.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("AnuncioId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Nombre")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Password")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Telefono")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UserName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Usuarios");
+                });
+
             modelBuilder.Entity("E_Market.Core.Domain.Entities.Anuncio", b =>
                 {
                     b.HasOne("E_Market.Core.Domain.Entities.Categoria", "Categoria")
@@ -111,10 +159,23 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("E_Market.Core.Domain.Entities.User", "Usuario")
+                        .WithMany("Anuncios")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Categoria");
+
+                    b.Navigation("Usuario");
                 });
 
             modelBuilder.Entity("E_Market.Core.Domain.Entities.Categoria", b =>
+                {
+                    b.Navigation("Anuncios");
+                });
+
+            modelBuilder.Entity("E_Market.Core.Domain.Entities.User", b =>
                 {
                     b.Navigation("Anuncios");
                 });

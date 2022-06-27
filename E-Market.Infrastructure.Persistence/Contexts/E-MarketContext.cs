@@ -76,9 +76,6 @@ namespace E_Market.Infrastructure.Persistence.Contexts
                   .Property(anuncio => anuncio.Precio)
                   .IsRequired();
                 modelBuilder.Entity<Anuncio>()
-                  .Property(anuncio => anuncio.Imagen)
-                  .IsRequired();
-                modelBuilder.Entity<Anuncio>()
                   .Property(anuncio => anuncio.Descripcion)
                   .IsRequired();
             #endregion

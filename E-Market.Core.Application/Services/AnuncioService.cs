@@ -40,6 +40,7 @@ namespace E_Market.Core.Application.Services
 
             anuncio = await _anuncioRepository.AddAsync(anuncio);
             SaveAnuncioViewModel anuncioViewModel = new();
+            anuncioViewModel.Id = anuncio.Id;
             anuncioViewModel.Nombre = anuncio.Nombre;
             anuncioViewModel.Precio = anuncio.Precio;
             anuncioViewModel.Imagen = anuncio.Imagen;

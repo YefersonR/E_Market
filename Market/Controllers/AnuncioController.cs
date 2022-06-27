@@ -57,9 +57,10 @@ namespace WebApp.Market.Controllers
             }
 
             SaveAnuncioViewModel anuncioViewModel1 =  await _anuncioService.Add(anuncioViewModel);
+
             if(anuncioViewModel1 != null && anuncioViewModel1.Id != 0)
             {
-                anuncioViewModel.Imagen = UploadFile(anuncioViewModel.File,anuncioViewModel1.Id);
+                anuncioViewModel1.Imagen = UploadFile(anuncioViewModel.File,anuncioViewModel1.Id);
                 await _anuncioService.Update(anuncioViewModel1);
             }
             return RedirectToRoute(new { controller = "Anuncio", action = "Index" });
