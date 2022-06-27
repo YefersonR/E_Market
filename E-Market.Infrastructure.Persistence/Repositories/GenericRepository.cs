@@ -17,10 +17,11 @@ namespace E_Market.Infrastructure.Persistence.Repositories
         {
             _marketContext = marketContext;
         }
-        public virtual async Task AddAsync(T type)
+        public virtual async Task<T> AddAsync(T type)
         {
             await _marketContext.Set<T>().AddAsync(type);
             await _marketContext.SaveChangesAsync();
+            return type;
         }
 
         public virtual async Task UpdateAsync(T type)

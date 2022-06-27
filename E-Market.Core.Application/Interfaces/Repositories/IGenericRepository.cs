@@ -8,7 +8,7 @@ namespace E_Market.Core.Application.Interfaces
 {
     public interface IGenericRepository<T> where T : class
     {
-        Task AddAsync(T type);
+        Task<T> AddAsync(T type);
         Task UpdateAsync(T type);
         Task DeleteAsync(T type);
         Task<List<T>> GetAllAsync();

@@ -18,11 +18,11 @@
             }
             else
             {
-                    <form method="post" asp-controller="Anuncio" asp-action="@(editMode ? "Create" : "Edit")">
+                    <form method="post" enctype="multipart/form-data" asp-controller="Anuncio" asp-action="@(editMode ? "Create" : "Edit")">
 
                         <div class="mb-3">
                             <label asp-for="Nombre" class="form-label">Nombre: </label>
-                            <input type="text" asp-for="Nombre" class="form-control">
+                            <input asp-for="Nombre" class="form-control">
                             <span asp-validation-for="Nombre" class="text-danger"></span>
                         </div>
                         <div class="mb-3">
@@ -30,8 +30,15 @@
                             <textarea asp-for="Descripcion" class="form-control"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="Imagen" class="form-label">Url de la imagen: </label>
-                            <input type="text" asp-for="Imagen" class="form-control">
+                            <label asp-for="File" class="form-label">Imagen del producto: </label>
+                            @if (editMode)
+                            {
+                                <input required asp-for="File" class="form-control">
+                            }
+                            else
+                            {
+                                <input asp-for="File" class="form-control">
+                            }
                         </div>
                         <div class="mb-3">
                             <label asp-for="Precio" class="form-label">Precio: </label>

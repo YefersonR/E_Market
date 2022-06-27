@@ -1,5 +1,6 @@
 ﻿using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.Services;
+using E_Market.Core.Application.ViewModels.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;

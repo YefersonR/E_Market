@@ -18,7 +18,7 @@ namespace E_Market.Core.Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task Add(SaveUserViewModel vm)
+        public async Task<SaveUserViewModel> Add(SaveUserViewModel vm)
         {
             User user = new();
             user.Nombre = vm.Nombre;
@@ -27,7 +27,15 @@ namespace E_Market.Core.Application.Services
             user.Email = vm.Email;
             user.Telefono = vm.Telefono;
 
-            await _userRepository.AddAsync(user);
+            user = await _userRepository.AddAsync(user);
+            SaveUserViewModel userViewModel = new();
+            userViewModel.Nombre = user.Nombre;
+            userViewModel.UserName = user.UserName;
+            userViewModel.Password = user.Password;
+            userViewModel.Email = user.Email;
+            userViewModel.Telefono = user.Telefono;
+
+            return userViewModel;
         }
         public async Task<UserViewModel> Login(LoginViewModel loginViewModel)
         {
@@ -49,7 +57,7 @@ namespace E_Market.Core.Application.Services
         }
         public async Task Update(SaveUserViewModel vm)
         {
-            User user= new();
+            User user = await _userRepository.GetByIdAsync(vm.Id);
             user.Id = vm.Id;
             user.Nombre = vm.Nombre;
             user.UserName = vm.UserName;

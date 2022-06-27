@@ -9,6 +9,7 @@ namespace E_Market.Core.Application.ViewModels
     public class FilterAnuncioViewModel
     {
 
-        public int? CategoriaId { get; set; }
+        public List<int?> CategoriaId { get; set; }
+        public string Anuncio { get; set; } = "";
     }
 }

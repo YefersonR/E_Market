@@ -8,7 +8,7 @@ namespace E_Market.Core.Application.Interfaces.Services
 {
     public interface IGenericService<T, Vm> where T : class
     {
-        Task Add(T type);
+        Task<T> Add(T type);
         Task Update(T type);
         Task Delete(int id);
         Task<T> GetByIdSaveViewModel(int id);

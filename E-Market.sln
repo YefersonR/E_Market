@@ -15,7 +15,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Market.Core.Application",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "E-Market.Infrastructure.Persistence", "E-Market.Infrastructure.Persistence\E-Market.Infrastructure.Persistence.csproj", "{9F6D970A-B956-46A7-8C94-F3DD2C620EF7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebApp.Market", "Market\WebApp.Market.csproj", "{29BFDE80-6736-4822-9048-1F3A07B28D61}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebApp.Market", "Market\WebApp.Market.csproj", "{29BFDE80-6736-4822-9048-1F3A07B28D61}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

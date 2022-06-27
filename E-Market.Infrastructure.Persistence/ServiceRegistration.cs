@@ -2,6 +2,7 @@
 using E_Market.Core.Application.Interfaces.Repositories;
 using E_Market.Infrastructure.Persistence.Contexts;
 using E_Market.Infrastructure.Persistence.Repositories;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -31,7 +32,6 @@ namespace E_Market.Infrastructure.Persistence
             service.AddTransient<IAnuncioRepository, AnuncioRepository>();
             service.AddTransient<ICategoriaRepository, CategoriaRepository>();
             service.AddTransient<IUserRepository, UserRepository>();
-
 
         }
     }

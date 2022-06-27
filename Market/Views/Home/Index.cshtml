@@ -10,7 +10,13 @@
 
     <div class="row">
         <div class="col-3">
-                <form method="post" asp-controller="Home" asp-action="Index" >
+            <form method="post" asp-controller="Home" asp-action="Index">
+
+                <div class="mb-3">
+                    <input name="Anuncio" class="form-control" placeholder="Buscar anuncio">
+                </div>
+            </form>
+                <form method="post" asp-controller="Home" asp-action="Index">
                     <div>
                         <div class="form-check">
                             <input class="form-check-input" value="null" type="radio" name="CategoriaId" id="categoria-all" />
@@ -21,34 +27,43 @@
                     {
                         <div>
                             <div class="form-check">
-                                <input class="form-check-input" value="@categoria.Id" type="radio" name="CategoriaId" id="categoria-@categoria.Id" />
+                                <input class="form-check-input" value="@categoria.Id" type="checkbox" name="CategoriaId" id="categoria-@categoria.Id" />
                                 <label class="form-check-label" for="categoria-@categoria.Id">-@categoria.Nombre</label>
                             </div>
                         </div>
                     }
                     <button type="submit" class="btn btn-outline-info mt-3">Filtrar</button>
                 </form>
-          </div>
+        </div>
                 <div class="col-9">
 
                     <div class="row">
 
                         @foreach (AnuncioViewModel item in Model)
                         {
-                            <div class="col-4 mb-3">
-                                <div class="card shadow-sm" >
-                                    <a asp-controller="Anuncio" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration:none; color:gray;">
-                                    <img src="@item.Imagen" class="img-product-size bd-placeholder-img card-img-top " />
-                                    <div class="card-body">
-                                        <h3>@item.Nombre</h3>
-                                        <p class="card-text">@item.Descripcion</p>
-                                        <div>
-                                            <small class="fw-bold">$@item.Precio</small>
-                                        </div>
+                            if (item != null)
+                            {
+
+                                <div class="col-4 mb-3">
+                                    <div class="card shadow-sm">
+                                        <a asp-controller="Anuncio" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration:none; color:gray;">
+                                            <img src="@item.Imagen" class="img-product-size bd-placeholder-img card-img-top " />
+                                            <div class="card-body">
+                                                <h3>@item.Nombre</h3>
+                                                <p class="card-text">@item.Descripcion</p>
+                                                <div>
+                                                    <small class="fw-bold">$@item.Precio</small>
+                                                </div>
+                                            </div>
+                                        </a>
                                     </div>
-                                    </a>
                                 </div>
-                            </div>
+                            }
+                            else if (Model.Count() == 1)
+                            {
+                                <h1>No se encontraron articulos de esta categoria</h1>
+                            }
+                           
                         }
                     </div>
                 </div>

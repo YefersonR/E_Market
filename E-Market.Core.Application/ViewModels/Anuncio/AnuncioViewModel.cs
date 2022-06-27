@@ -1,9 +1,4 @@
 ﻿using E_Market.Core.Domain.Commons;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace E_Market.Core.Application.ViewModels.Anuncio
 {
@@ -15,6 +10,7 @@ namespace E_Market.Core.Application.ViewModels.Anuncio
         public double Precio { get; set; }
         public string  Categoria { get; set; }
         public int CategoriaId { get; set; }
+
 
 
     }

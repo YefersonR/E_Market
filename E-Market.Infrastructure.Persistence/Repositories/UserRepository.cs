@@ -19,10 +19,10 @@ namespace E_Market.Infrastructure.Persistence.Repositories
         {
             _MarketContext = marketContext;
         }
-        public override async Task AddAsync(User type)
+        public override async Task<User> AddAsync(User type)
         {
             type.Password = PasswordEncryption.ComputeHash(type.Password);
-            await base.AddAsync(type);
+            return await base.AddAsync(type);
         }
         public async Task<User> LoginAsync(LoginViewModel type)
         {

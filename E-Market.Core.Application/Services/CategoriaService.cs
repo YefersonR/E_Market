@@ -20,19 +20,23 @@ namespace E_Market.Core.Application.Services
             _categoriaRepository = categoriaRepository;
         }
 
-        public async Task Add(SaveCategoriaViewModel vm)
+        public async Task<SaveCategoriaViewModel> Add(SaveCategoriaViewModel vm)
         {
             Categoria categoria = new();
             categoria.Nombre = vm.Nombre;
             categoria.Descripcion = vm.Descripcion;
             
+            categoria = await _categoriaRepository.AddAsync(categoria);
+            SaveCategoriaViewModel categoriaViewModel = new();
+            categoriaViewModel.Nombre = categoria.Nombre;
+            categoriaViewModel.Descripcion = categoria.Descripcion;
+            return categoriaViewModel;
 
-            await _categoriaRepository.AddAsync(categoria);
         }
 
         public async Task Update(SaveCategoriaViewModel vm)
         {
-            Categoria categoria = new();
+            Categoria categoria = await _categoriaRepository.GetByIdAsync(vm.Id);
             categoria.Id = vm.Id;
             categoria.Nombre = vm.Nombre;
             categoria.Descripcion = vm.Descripcion;
