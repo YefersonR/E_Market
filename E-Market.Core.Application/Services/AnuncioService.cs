@@ -34,6 +34,9 @@ namespace E_Market.Core.Application.Services
             anuncio.Nombre = vm.Nombre;
             anuncio.Precio = vm.Precio;
             anuncio.Imagen = vm.Imagen;
+            anuncio.Imagen1 = vm.Imagen1;
+            anuncio.Imagen2 = vm.Imagen2;
+            anuncio.Imagen3 = vm.Imagen3;
             anuncio.Descripcion = vm.Descripcion;
             anuncio.CategoriaId = vm.CategoriaId;
             anuncio.UserId = _userVM.Id;
@@ -44,6 +47,9 @@ namespace E_Market.Core.Application.Services
             anuncioViewModel.Nombre = anuncio.Nombre;
             anuncioViewModel.Precio = anuncio.Precio;
             anuncioViewModel.Imagen = anuncio.Imagen;
+            anuncioViewModel.Imagen1 = anuncio.Imagen1;
+            anuncioViewModel.Imagen2 = anuncio.Imagen2;
+            anuncioViewModel.Imagen3 = anuncio.Imagen3;
             anuncioViewModel.Descripcion = anuncio.Descripcion;
             anuncioViewModel.CategoriaId = anuncio.CategoriaId;
 
@@ -58,6 +64,9 @@ namespace E_Market.Core.Application.Services
             anuncio.Nombre = vm.Nombre;
             anuncio.Precio = vm.Precio;
             anuncio.Imagen = vm.Imagen;
+            anuncio.Imagen1 = vm.Imagen1;
+            anuncio.Imagen2 = vm.Imagen2;
+            anuncio.Imagen3 = vm.Imagen3;
             anuncio.Descripcion = vm.Descripcion;
             anuncio.CategoriaId = vm.CategoriaId;
 
@@ -80,6 +89,9 @@ namespace E_Market.Core.Application.Services
             vm.Descripcion = anuncio.Descripcion;
             vm.Precio = anuncio.Precio;
             vm.Imagen = anuncio.Imagen;
+            vm.Imagen1 = anuncio.Imagen1;
+            vm.Imagen2 = anuncio.Imagen2;
+            vm.Imagen3 = anuncio.Imagen3;
             vm.CategoriaId = anuncio.CategoriaId;
             vm.Created = anuncio.Created;
             vm.CreatedBy = anuncio.CreatedBy;
@@ -96,6 +108,9 @@ namespace E_Market.Core.Application.Services
                 Descripcion = anuncio.Descripcion,
                 Precio = anuncio.Precio,
                 Imagen = anuncio.Imagen,
+                Imagen1 = anuncio.Imagen1,
+                Imagen2 = anuncio.Imagen2,
+                Imagen3 = anuncio.Imagen3,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
@@ -113,6 +128,9 @@ namespace E_Market.Core.Application.Services
                 Descripcion = anuncio.Descripcion,
                 Precio = anuncio.Precio,
                 Imagen = anuncio.Imagen,
+                Imagen1 = anuncio.Imagen1,
+                Imagen2 = anuncio.Imagen2,
+                Imagen3 = anuncio.Imagen3,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
@@ -132,6 +150,9 @@ namespace E_Market.Core.Application.Services
                 Descripcion = anuncio.Descripcion,
                 Precio = anuncio.Precio,
                 Imagen = anuncio.Imagen,
+                Imagen1 = anuncio.Imagen1,
+                Imagen2 = anuncio.Imagen2,
+                Imagen3 = anuncio.Imagen3,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,

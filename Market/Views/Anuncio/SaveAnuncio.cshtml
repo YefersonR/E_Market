@@ -30,14 +30,22 @@
                             <textarea asp-for="Descripcion" class="form-control"></textarea>
                         </div>
                         <div class="mb-3">
-                            <label asp-for="File" class="form-label">Imagen del producto: </label>
+                            <label asp-for="File" class="form-label">Imagenes del anuncio: </label>
                             @if (editMode)
                             {
                                 <input required asp-for="File" class="form-control">
+                                <input asp-for="File1" class="form-control">
+                                <input asp-for="File2" class="form-control">
+                                <input asp-for="File3" class="form-control">
+
                             }
                             else
                             {
                                 <input asp-for="File" class="form-control">
+                                <input asp-for="File1" class="form-control">
+                                <input asp-for="File2" class="form-control">
+                                <input asp-for="File3" class="form-control">
+
                             }
                         </div>
                         <div class="mb-3">

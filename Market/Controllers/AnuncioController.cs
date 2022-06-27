@@ -61,6 +61,10 @@ namespace WebApp.Market.Controllers
             if(anuncioViewModel1 != null && anuncioViewModel1.Id != 0)
             {
                 anuncioViewModel1.Imagen = UploadFile(anuncioViewModel.File,anuncioViewModel1.Id);
+                anuncioViewModel1.Imagen1 = UploadFile(anuncioViewModel.File1, anuncioViewModel1.Id);
+                anuncioViewModel1.Imagen2 = UploadFile(anuncioViewModel.File2, anuncioViewModel1.Id);
+                anuncioViewModel1.Imagen3 = UploadFile(anuncioViewModel.File3, anuncioViewModel1.Id);
+
                 await _anuncioService.Update(anuncioViewModel1);
             }
             return RedirectToRoute(new { controller = "Anuncio", action = "Index" });
@@ -91,7 +95,10 @@ namespace WebApp.Market.Controllers
             }
             SaveAnuncioViewModel anuncioViewModel = await _anuncioService.GetByIdSaveViewModel(saveAnuncioViewModel.Id);
             saveAnuncioViewModel.Imagen = UploadFile(saveAnuncioViewModel.File,anuncioViewModel.Id,true,anuncioViewModel.Imagen);
-         
+            saveAnuncioViewModel.Imagen1 = UploadFile(saveAnuncioViewModel.File1,anuncioViewModel.Id,true,anuncioViewModel.Imagen1);
+            saveAnuncioViewModel.Imagen2 = UploadFile(saveAnuncioViewModel.File2, anuncioViewModel.Id, true, anuncioViewModel.Imagen2);
+            saveAnuncioViewModel.Imagen3 = UploadFile(saveAnuncioViewModel.File3, anuncioViewModel.Id, true, anuncioViewModel.Imagen3);
+
             await _anuncioService.Update(saveAnuncioViewModel);
             return RedirectToRoute(new { controller = "Anuncio", action = "Index" });
         }
@@ -155,25 +162,40 @@ namespace WebApp.Market.Controllers
                 Directory.CreateDirectory(path);
             }
             Guid guid = Guid.NewGuid();
-            FileInfo fileInfo = new(File.FileName);
-            string filename = guid + fileInfo.Extension;
-            string finalPath = Path.Combine(path, filename);
-            using (var stream = new FileStream(finalPath, FileMode.Create))
+            if(File != null)
             {
-                File.CopyTo(stream);
-            }
-            if (IsEditMode)
-            {
-                string[] oldPart = imgUrl.Split("/");
-                string oldImageName = oldPart[^1];
-                string completeOldPath = Path.Combine(path, oldImageName);
-                if (System.IO.File.Exists(completeOldPath))
+
+                FileInfo fileInfo = new(File.FileName);
+                string filename = guid + fileInfo.Extension;
+                string finalPath = Path.Combine(path, filename);
+                using (var stream = new FileStream(finalPath, FileMode.Create))
                 {
-                    System.IO.File.Delete(completeOldPath);
+                    File.CopyTo(stream);
                 }
-            }
+                if (IsEditMode)
+                {
+                    if(imgUrl != null)
+                    {
+                        string[] oldPart = imgUrl.Split("/");
+                        string oldImageName = oldPart[^1];
+                        string completeOldPath = Path.Combine(path, oldImageName);
+                        if (System.IO.File.Exists(completeOldPath))
+                        {
+                            System.IO.File.Delete(completeOldPath);
+                        }
+                    }
+                    else
+                    {
+                        return imgUrl;
+                    }
+                }
 
             return $"{basePath}/{filename}";
+            }
+            else
+            {
+                return imgUrl;
+            }
         }
     }
 }
