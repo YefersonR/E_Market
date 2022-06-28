@@ -13,7 +13,7 @@ namespace E_Market.Core.Application.ViewModels.Anuncio
         public double Precio { get; set; }
         public string  Categoria { get; set; }
         public int CategoriaId { get; set; }
-
+        public string Telefono { get; set; }
 
 
     }

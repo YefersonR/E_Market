@@ -14,10 +14,12 @@ namespace E_Market.Core.Application.Services
     public class CategoriaService : ICategoriaService
     {
         public readonly ICategoriaRepository _categoriaRepository;
+        public readonly IAnuncioRepository _anuncioRepository;
 
-        public CategoriaService(ICategoriaRepository categoriaRepository)
+        public CategoriaService(ICategoriaRepository categoriaRepository, IAnuncioRepository anuncioRepository)
         {
             _categoriaRepository = categoriaRepository;
+            _anuncioRepository = anuncioRepository;
         }
 
         public async Task<SaveCategoriaViewModel> Add(SaveCategoriaViewModel vm)
@@ -76,13 +78,16 @@ namespace E_Market.Core.Application.Services
 
         public async Task<List<CategoriaViewModel>> GetAllViewModel()
         {
-            var list = await _categoriaRepository.GetAllWithIncludeAsync(new List<string> { "Anuncios" });
+            var list = await _categoriaRepository.GetAllWithIncludeAsync(new List<string> { "Anuncios",});
             return list.Select(categoria => new CategoriaViewModel
             {
                 Id = categoria.Id,
                 Nombre = categoria.Nombre,
                 Descripcion = categoria.Descripcion,
-                CantAnuncios = categoria.Anuncios.Count()
+                CantAnuncios = categoria.Anuncios.Count(),
+                CantUsuarios = categoria.Anuncios.GroupBy(anuncio => anuncio.UserId).Distinct().Count(),
+
+
             }).ToList();
         }
 

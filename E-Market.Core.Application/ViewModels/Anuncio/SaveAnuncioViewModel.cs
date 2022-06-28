@@ -25,6 +25,8 @@ namespace E_Market.Core.Application.ViewModels.Anuncio
         public double Precio { get; set; }
         [Range(1, int.MaxValue,ErrorMessage="Debe colocar una categoria validad")]
         public int CategoriaId { get; set; }
+        public string Telefono { get; set; }
+
         public List<CategoriaViewModel> Categorias { get; set; } 
         [DataType(DataType.Upload)]
         public IFormFile File { get; set; }

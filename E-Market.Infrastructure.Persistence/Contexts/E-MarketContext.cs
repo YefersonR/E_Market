@@ -1,4 +1,7 @@
-﻿using E_Market.Core.Domain.Commons;
+﻿using E_Market.Core.Application.Helpers;
+using E_Market.Core.Application.Interfaces.Services;
+using E_Market.Core.Application.ViewModels.User;
+using E_Market.Core.Domain.Commons;
 using E_Market.Core.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
@@ -13,12 +16,20 @@ namespace E_Market.Infrastructure.Persistence.Contexts
 {
     public class E_MarketContext : DbContext
     {
+        private readonly ICategoriaService _categoriaService;
+        public readonly IHttpContextAccessor _ContextHttp;
+        public readonly UserViewModel _userVM;
+
         public DbSet<Anuncio> Anuncios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<User> Users{ get; set; }
 
-        public E_MarketContext(DbContextOptions<E_MarketContext> options) : base(options)
-        {}
+        public E_MarketContext(DbContextOptions<E_MarketContext> options, IHttpContextAccessor httpContext) : base(options)
+        {
+            _ContextHttp = httpContext;
+            _userVM = _ContextHttp.HttpContext.Session.Get<UserViewModel>("usuario");
+
+        }
 
         public override Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
         {
@@ -28,11 +39,11 @@ namespace E_Market.Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = "Default User";
+                        entry.Entity.CreatedBy = _userVM.Nombre;
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
-                        entry.Entity.LastModifiedBy = "Default User";
+                        entry.Entity.LastModifiedBy = _userVM.Nombre;
                         break;
                 }
             }

@@ -11,18 +11,20 @@ using System.Threading.Tasks;
 using E_Market.Core.Application.Helpers;
 using Microsoft.AspNetCore.Http;
 using E_Market.Core.Application.ViewModels.User;
-
+using E_Market.Core.Application.Interfaces.Repositories;
 
 namespace E_Market.Core.Application.Services
 {
     public class AnuncioService : IAnuncioService
     {
         public readonly IAnuncioRepository _anuncioRepository;
+        public readonly IUserRepository _userRepository;
         public readonly IHttpContextAccessor _ContextHttp;
         public readonly UserViewModel _userVM;
-        public AnuncioService(IAnuncioRepository anuncioRepository, IHttpContextAccessor ContextHttp)
+        public AnuncioService(IAnuncioRepository anuncioRepository,IUserRepository userRepository, IHttpContextAccessor ContextHttp)
         {
             _anuncioRepository = anuncioRepository;
+            _userRepository = userRepository;
             _ContextHttp = ContextHttp;
             _userVM = _ContextHttp.HttpContext.Session.Get<UserViewModel>("usuario");
 
@@ -52,8 +54,6 @@ namespace E_Market.Core.Application.Services
             anuncioViewModel.Imagen3 = anuncio.Imagen3;
             anuncioViewModel.Descripcion = anuncio.Descripcion;
             anuncioViewModel.CategoriaId = anuncio.CategoriaId;
-
-
             return anuncioViewModel;
         }
 
@@ -95,6 +95,8 @@ namespace E_Market.Core.Application.Services
             vm.CategoriaId = anuncio.CategoriaId;
             vm.Created = anuncio.Created;
             vm.CreatedBy = anuncio.CreatedBy;
+            var user = await _userRepository.GetByIdAsync(anuncio.UserId);
+            vm.Telefono = user.Telefono;
 
             return vm;
         }
@@ -134,7 +136,8 @@ namespace E_Market.Core.Application.Services
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
-                CreatedBy = anuncio.CreatedBy
+                CreatedBy = anuncio.CreatedBy,
+                
 
 
             }).ToList();
@@ -157,7 +160,7 @@ namespace E_Market.Core.Application.Services
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
                 CreatedBy = anuncio.CreatedBy
-
+                
 
             })  .ToList();
             if (filter.CategoriaId != null)

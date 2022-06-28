@@ -43,11 +43,11 @@
                                 <a class="nav-link text-black-50" asp-controller="Categoria" asp-action="Index">Categoria</a>
                             </li>
                             <li class="nav-item">
-                                <p class="nav-link text-black-50">@user.UserName</p>
+                                <p class="nav-link text-primary">@user.UserName</p>
                             </li>
 
                             <li class="nav-item">
-                                <a class="nav-link text-black-50" asp-controller="Usuario" asp-action="Logout"> Log Out</a>
+                                <a class="nav-link text-danger" asp-controller="Usuario" asp-action="Logout"> Log Out</a>
                             </li>
                         </ul>
                     </div>
@@ -57,7 +57,7 @@
                     <div class="collapse navbar-collapse d-flex flex-row-reverse" id="navbarNavDropdown">
                          <ul class="navbar-nav"> 
                             <li class="nav-item">
-                                <a class="nav-link text-black-50" asp-controller="Usuario" asp-action="Register">Registrarme</a>
+                                <a class="nav-link text-primary" asp-controller="Usuario" asp-action="Register">Registrarme</a>
                             </li>
                         </ul>
                     </div>

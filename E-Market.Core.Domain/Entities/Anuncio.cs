@@ -15,7 +15,6 @@ namespace E_Market.Core.Domain.Entities
         public string Imagen1 { get; set; }
         public string Imagen2 { get; set; }
         public string Imagen3 { get; set; }
-
         public double Precio { get; set; }
         public int CategoriaId { get; set; }
         public Categoria Categoria { get; set; }

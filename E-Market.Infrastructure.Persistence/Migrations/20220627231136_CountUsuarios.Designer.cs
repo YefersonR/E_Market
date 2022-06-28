@@ -4,14 +4,16 @@ using E_Market.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace E_Market.Infrastructure.Persistence.Migrations
 {
     [DbContext(typeof(E_MarketContext))]
-    partial class E_MarketContextModelSnapshot : ModelSnapshot
+    [Migration("20220627231136_CountUsuarios")]
+    partial class CountUsuarios
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

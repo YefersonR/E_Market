@@ -99,6 +99,7 @@ namespace E_Market.Core.Application.Services
                 Email = user.Email,
                 Telefono = user.Telefono,
                 
+                
 
 
             }).ToList();

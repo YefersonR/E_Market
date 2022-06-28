@@ -12,6 +12,8 @@ namespace E_Market.Core.Domain.Entities
         public string Nombre { get; set; }
         public  string Descripcion { get; set; }
         public int CantAnuncios { get; set; }
+        public int CantUsuarios { get; set; }
         public List<Anuncio> Anuncios { get; set; }
+
     }
 }
