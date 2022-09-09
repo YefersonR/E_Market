@@ -1,12 +1,9 @@
 ﻿using E_Market.Core.Application.Interfaces;
 using E_Market.Core.Application.Interfaces.Services;
-using E_Market.Core.Application.ViewModels;
 using E_Market.Core.Application.ViewModels.Categoria;
 using E_Market.Core.Domain.Entities;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace E_Market.Core.Application.Services
@@ -72,7 +69,6 @@ namespace E_Market.Core.Application.Services
             vm.Nombre = categoria.Nombre;
             vm.Descripcion = categoria.Descripcion;
 
-
             return vm;
         }
 
@@ -87,10 +83,8 @@ namespace E_Market.Core.Application.Services
                 CantAnuncios = categoria.Anuncios.Count(),
                 CantUsuarios = categoria.Anuncios.GroupBy(anuncio => anuncio.UserId).Distinct().Count(),
 
-
             }).ToList();
         }
-
 
     }
 }

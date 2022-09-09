@@ -10,8 +10,10 @@ namespace E_Market.Core.Application.ViewModels.Categoria
     public class SaveCategoriaViewModel
     {
         public int Id { get; set; }
+
         [Required(ErrorMessage ="Debe colocar un nombre a la categoria")]
         public string Nombre { get; set; }
+        
         [Required(ErrorMessage = "Debe colocar una descripcion de la categoria")]
         public string Descripcion { get; set; }
         public int CantUsuarios { get; set; }

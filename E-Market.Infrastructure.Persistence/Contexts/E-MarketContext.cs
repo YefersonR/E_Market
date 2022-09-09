@@ -1,14 +1,10 @@
 ﻿using E_Market.Core.Application.Helpers;
-using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.ViewModels.User;
 using E_Market.Core.Domain.Commons;
 using E_Market.Core.Domain.Entities;
 using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 
@@ -16,7 +12,6 @@ namespace E_Market.Infrastructure.Persistence.Contexts
 {
     public class E_MarketContext : DbContext
     {
-        private readonly ICategoriaService _categoriaService;
         public readonly IHttpContextAccessor _ContextHttp;
         public readonly UserViewModel _userVM;
 
@@ -39,11 +34,11 @@ namespace E_Market.Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = _userVM.Nombre;
+                        entry.Entity.CreatedBy = "";
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
-                        entry.Entity.LastModifiedBy = _userVM.Nombre;
+                        entry.Entity.LastModifiedBy = "";
                         break;
                 }
             }

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
+﻿
 namespace E_Market.Core.Application.ViewModels.Categoria
 {
     public class CategoriaViewModel
@@ -13,6 +8,5 @@ namespace E_Market.Core.Application.ViewModels.Categoria
         public string Descripcion { get; set; }
         public int CantAnuncios { get; set; }
         public int CantUsuarios { get; set; }
-
     }
 }

@@ -3,8 +3,8 @@
 @{
     ViewData["Title"] = "Register";
 }
-<div class="row">
-    <div class="col-6 offset-3">
+<div class="d-flex justify-content-center align-content-center">
+    <div class="w-50">
         <h4 class="card-title mt-3 text-center">Crear usuario</h4>
 
         <form method="post" asp-controller="Usuario" asp-action="Register">
@@ -43,10 +43,8 @@
                 <span asp-validation-for="Telefono" class="text-danger"></span>
             </div>
 
-            <input type="hidden" asp-for="Id" />
-
-            <button type="submit" class="btn btn-primary">Iniciar seccion</button>
-            <a asp-controller="Usuario" asp-action="Index" class="btn btn-warning">Login</a>
+            <button type="submit" class="btn btn-primary">Registrarme</button>
+            <a asp-controller="Usuario" asp-action="Index" class="btn btn-warning">Iniciar seccion</a>
         </form>
     </div>
 </div>

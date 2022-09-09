@@ -10,7 +10,7 @@
     <h4>¿Está seguro que quiere eliminar a @Model.Nombre ?</h4>
 </div>
 <div class="card-body">
-    <form method="post" asp-controller="Anuncio" asp-action="DeletePost">
+    <form method="post" asp-controller="Categoria" asp-action="DeletePost">
         <input type="hidden" asp-for="Id" />
 
         <button type="submit" class="btn btn-danger">Eliminar</button>

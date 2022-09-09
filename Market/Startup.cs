@@ -28,7 +28,7 @@ namespace Market
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddSession();
-            services.AddApplicationLayer(Configuration);
+            services.AddApplicationLayer();
             services.AddPersistenceInfrastructure(Configuration);
             services.AddControllersWithViews();
             services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

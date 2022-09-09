@@ -1,13 +1,6 @@
 ﻿using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.ViewModels;
-using E_Market.Core.Domain.Entities;
-using Market.Models;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
 using System.Threading.Tasks;
 using WebApp.Market.Middleware;
 
@@ -25,7 +18,6 @@ namespace Market.Controllers
             _categotiaService = categoriaService;
             _userSession = userSession;
         }
-
         public async Task<IActionResult> Index(FilterAnuncioViewModel filterAnuncio)
         {
             if (!_userSession.hasUser())
@@ -36,6 +28,5 @@ namespace Market.Controllers
             ViewBag.Categorias = await _categotiaService.GetAllViewModel(); 
             return View(await _anuncioService.GetAllViewModelWithFilter(filterAnuncio));
         }
-
     }
 }
