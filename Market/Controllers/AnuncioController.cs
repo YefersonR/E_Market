@@ -1,5 +1,6 @@
 ﻿using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.ViewModels.Anuncio;
+using E_Market.Core.Application.ViewModels.Imagen;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
@@ -13,11 +14,13 @@ namespace WebApp.Market.Controllers
     {
         private readonly IAnuncioService _anuncioService;
         private readonly ICategoriaService _categoriaService;
+        private readonly IImagenService _imagenService;
         private readonly UserSession _userSession;
-        public AnuncioController(IAnuncioService anuncioService, ICategoriaService  categoriaService,UserSession userSession)
+        public AnuncioController(IAnuncioService anuncioService, ICategoriaService  categoriaService, IImagenService imagenService, UserSession userSession)
         {
             _anuncioService = anuncioService;
             _categoriaService = categoriaService;
+            _imagenService = imagenService;
             _userSession = userSession;
         }
         public async Task<IActionResult> Index()
@@ -55,16 +58,14 @@ namespace WebApp.Market.Controllers
             }
 
             SaveAnuncioViewModel anuncioViewModel1 =  await _anuncioService.Add(anuncioViewModel);
-
-            if(anuncioViewModel1 != null && anuncioViewModel1.Id != 0)
+            foreach(IFormFile anuncio in anuncioViewModel.Files)
             {
-                anuncioViewModel1.Imagen = UploadFile(anuncioViewModel.File,anuncioViewModel1.Id);
-                anuncioViewModel1.Imagen1 = UploadFile(anuncioViewModel.File1, anuncioViewModel1.Id);
-                anuncioViewModel1.Imagen2 = UploadFile(anuncioViewModel.File2, anuncioViewModel1.Id);
-                anuncioViewModel1.Imagen3 = UploadFile(anuncioViewModel.File3, anuncioViewModel1.Id);
-
-                await _anuncioService.Update(anuncioViewModel1);
+                SaveImagenViewModel saveImagen = new();
+                saveImagen.UrlImg = UploadFile(anuncio,anuncioViewModel1.Id);
+                saveImagen.IdAnuncio = anuncioViewModel1.Id;
+                await _imagenService.Add(saveImagen);
             }
+
             return RedirectToRoute(new { controller = "Anuncio", action = "Index" });
         }
         public async Task<IActionResult> Edit(int id)
@@ -92,10 +93,35 @@ namespace WebApp.Market.Controllers
                 return View("SaveAnuncio", saveAnuncioViewModel);
             }
             SaveAnuncioViewModel anuncioViewModel = await _anuncioService.GetByIdSaveViewModel(saveAnuncioViewModel.Id);
-            saveAnuncioViewModel.Imagen = UploadFile(saveAnuncioViewModel.File,anuncioViewModel.Id,true,anuncioViewModel.Imagen);
-            saveAnuncioViewModel.Imagen1 = UploadFile(saveAnuncioViewModel.File1,anuncioViewModel.Id,true,anuncioViewModel.Imagen1);
-            saveAnuncioViewModel.Imagen2 = UploadFile(saveAnuncioViewModel.File2, anuncioViewModel.Id, true, anuncioViewModel.Imagen2);
-            saveAnuncioViewModel.Imagen3 = UploadFile(saveAnuncioViewModel.File3, anuncioViewModel.Id, true, anuncioViewModel.Imagen3);
+            if(saveAnuncioViewModel.Files != null)
+            {
+                string basePath = $"/Img/Anuncios/${anuncioViewModel.Id}";
+                string path = Path.Combine(Directory.GetCurrentDirectory(), $"wwwroot{basePath}");
+                await _imagenService.Delete(anuncioViewModel.Id);
+                if (Directory.Exists(path))
+                {
+                    DirectoryInfo directoryInfo = new(path);
+                    foreach (FileInfo file in directoryInfo.GetFiles())
+                    {
+                        file.Delete();
+                    }
+                }
+
+                foreach (IFormFile anuncio in saveAnuncioViewModel.Files)
+                {
+                    SaveImagenViewModel saveImagen = new();
+                    if(UploadFile(anuncio, anuncioViewModel.Id, true) != "")
+                    {
+                        saveImagen.UrlImg = UploadFile(anuncio, anuncioViewModel.Id, true);
+                        saveImagen.IdAnuncio = anuncioViewModel.Id;
+                        await _imagenService.Add(saveImagen);
+                    }
+                }
+            }
+            //saveAnuncioViewModel.Imagen = UploadFile(saveAnuncioViewModel.File,anuncioViewModel.Id,true,anuncioViewModel.Imagen);
+            //saveAnuncioViewModel.Imagen1 = UploadFile(saveAnuncioViewModel.File1,anuncioViewModel.Id,true,anuncioViewModel.Imagen1);
+            //saveAnuncioViewModel.Imagen2 = UploadFile(saveAnuncioViewModel.File2, anuncioViewModel.Id, true, anuncioViewModel.Imagen2);
+            //saveAnuncioViewModel.Imagen3 = UploadFile(saveAnuncioViewModel.File3, anuncioViewModel.Id, true, anuncioViewModel.Imagen3);
 
             await _anuncioService.Update(saveAnuncioViewModel);
             return RedirectToRoute(new { controller = "Anuncio", action = "Index" });
@@ -162,18 +188,14 @@ namespace WebApp.Market.Controllers
             Guid guid = Guid.NewGuid();
             if(File != null)
             {
-
                 FileInfo fileInfo = new(File.FileName);
                 string filename = guid + fileInfo.Extension;
                 string finalPath = Path.Combine(path, filename);
-                using (var stream = new FileStream(finalPath, FileMode.Create))
-                {
-                    File.CopyTo(stream);
-                }
+             
+
                 if (IsEditMode)
                 {
-                    if(imgUrl != null)
-                    {
+                    
                         string[] oldPart = imgUrl.Split("/");
                         string oldImageName = oldPart[^1];
                         string completeOldPath = Path.Combine(path, oldImageName);
@@ -181,14 +203,13 @@ namespace WebApp.Market.Controllers
                         {
                             System.IO.File.Delete(completeOldPath);
                         }
-                    }
-                    else
-                    {
-                        return imgUrl;
-                    }
+                }
+                using (var stream = new FileStream(finalPath, FileMode.Create))
+                {
+                    File.CopyTo(stream);
                 }
 
-            return $"{basePath}/{filename}";
+                return $"{basePath}/{filename}";
             }
             else
             {

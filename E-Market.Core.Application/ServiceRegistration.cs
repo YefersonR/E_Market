@@ -12,6 +12,8 @@ namespace E_Market.Core.Application
             service.AddTransient<IAnuncioService, AnuncioService>();
             service.AddTransient<ICategoriaService, CategoriaService>();
             service.AddTransient<IUserService, UserService>();
+            service.AddTransient<IImagenService, ImagenService>();
+            
         }
     }
 }

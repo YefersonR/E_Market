@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using System.Collections.Generic;
 
-namespace E_Market.Core.Application.Interfaces
+namespace E_Market.Core.Application.Interfaces.Repositories
 {
     public interface IGenericRepository<T> where T : class
     {

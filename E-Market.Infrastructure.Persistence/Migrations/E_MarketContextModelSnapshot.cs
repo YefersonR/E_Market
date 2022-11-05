@@ -39,18 +39,6 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Imagen")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Imagen1")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Imagen2")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Imagen3")
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime?>("LastModified")
                         .HasColumnType("datetime2");
 
@@ -109,14 +97,42 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("UsuariosId")
+                    b.HasKey("Id");
+
+                    b.ToTable("Categorias");
+                });
+
+            modelBuilder.Entity("E_Market.Core.Domain.Entities.Imagen", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("IdAnuncio")
                         .HasColumnType("int");
+
+                    b.Property<DateTime?>("LastModified")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastModifiedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UrlImg")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UsuariosId");
+                    b.HasIndex("IdAnuncio");
 
-                    b.ToTable("Categorias");
+                    b.ToTable("Imagenes");
                 });
 
             modelBuilder.Entity("E_Market.Core.Domain.Entities.User", b =>
@@ -125,9 +141,6 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("AnuncioId")
-                        .HasColumnType("int");
 
                     b.Property<DateTime>("Created")
                         .HasColumnType("datetime2");
@@ -184,13 +197,20 @@ namespace E_Market.Infrastructure.Persistence.Migrations
                     b.Navigation("Usuario");
                 });
 
-            modelBuilder.Entity("E_Market.Core.Domain.Entities.Categoria", b =>
+            modelBuilder.Entity("E_Market.Core.Domain.Entities.Imagen", b =>
                 {
-                    b.HasOne("E_Market.Core.Domain.Entities.User", "Usuarios")
-                        .WithMany()
-                        .HasForeignKey("UsuariosId");
+                    b.HasOne("E_Market.Core.Domain.Entities.Anuncio", "Anuncio")
+                        .WithMany("Imagenes")
+                        .HasForeignKey("IdAnuncio")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
-                    b.Navigation("Usuarios");
+                    b.Navigation("Anuncio");
+                });
+
+            modelBuilder.Entity("E_Market.Core.Domain.Entities.Anuncio", b =>
+                {
+                    b.Navigation("Imagenes");
                 });
 
             modelBuilder.Entity("E_Market.Core.Domain.Entities.Categoria", b =>

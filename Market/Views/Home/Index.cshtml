@@ -1,6 +1,7 @@
-﻿@using E_Market.Core.Application.ViewModels.Anuncio;
+﻿@using E_Market.Core.Application.ViewModels.Home;
+@using E_Market.Core.Application.ViewModels.Anuncio;
 @using E_Market.Core.Application.ViewModels.Categoria;
-@model List<AnuncioViewModel>
+@model HomeItemsViewModel;
 @{
     ViewData["Title"] = "Inicio";
 }
@@ -16,61 +17,60 @@
                     <input name="Anuncio" class="form-control" placeholder="Buscar anuncio">
                 </div>
             </form>
-                <form method="post" asp-controller="Home" asp-action="Index">
-                    <div>
-                        <div class="form-check">
-                            <input class="form-check-input" value="null" type="radio" name="CategoriaId" id="categoria-all" />
-                            <label class="form-check-label" for="categoria-all">Todas</label>
-                        </div>
-                    </div>
-                    @foreach (CategoriaViewModel categoria in ViewBag.Categorias)
-                    {
-                        <div>
-                            <div class="form-check">
-                                <input class="form-check-input" value="@categoria.Id" type="checkbox" name="CategoriaId" id="categoria-@categoria.Id" />
-                                <label class="form-check-label" for="categoria-@categoria.Id">-@categoria.Nombre</label>
-                            </div>
-                        </div>
-                    }
-                    <button type="submit" class="btn btn-outline-info mt-3">Filtrar</button>
-                </form>
-        </div>
-                <div class="col-10">
-
-                    <div class="row">
-
-                        @foreach (AnuncioViewModel item in Model)
-                        {
-                            if (item != null)
-                            {
-
-                                <div class="col-4 mb-3">
-                                    <div class="card shadow-sm">
-                                        <a asp-controller="Anuncio" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration:none; color:gray;">
-                                            <img src="@item.Imagen" class="img-product-size bd-placeholder-img card-img-top " />
-                                            <div class="card-body">
-                                                <h3>@item.Nombre</h3>
-                                                    <div class="d-flex justify-content-between">
-                                                        <p class="card-text">@item.Descripcion</p>
-                                                        <small class="fw-bold">@item.Categoria</small>
-                                                    </div>
-                                                    <div class="d-flex justify-content-between">
-                                                        <small class="fw-bold">$@item.Precio</small>
-                                                        <small class="fw-bold">Publicado por @item.CreatedBy</small>
-
-                                                    </div>
-                                                </div>
-</a>
-                                    </div>
-                                </div>
-                            }
-                            else if (Model.Count() == 1)
-                            {
-                                <h1>No se encontraron articulos de esta categoria</h1>
-                            }
-                           
-                        }
+            <form method="post" asp-controller="Home" asp-action="Index">
+                <div>
+                    <div class="form-check">
+                        <input class="form-check-input" value="null" type="radio" name="CategoriaId" id="categoria-all" />
+                        <label class="form-check-label" for="categoria-all">Todas</label>
                     </div>
                 </div>
+                @foreach (CategoriaViewModel categoria in Model.Categorias)
+                {
+                    <div>
+                        <div class="form-check">
+                            <input class="form-check-input" value="@categoria.Id" type="checkbox" name="CategoriaId" id="categoria-@categoria.Id" />
+                            <label class="form-check-label" for="categoria-@categoria.Id">-@categoria.Nombre</label>
+                        </div>
+                    </div>
+                }
+                <button type="submit" class="btn btn-outline-info mt-3">Filtrar</button>
+            </form>
+        </div>
+        <div class="col-10">
+
+            <div class="row">
+
+                @if (Model.Anuncios.Count() != 0)
+                {
+                    @foreach (AnuncioViewModel item in Model.Anuncios)
+                    {
+                            <div class="col-4 mb-3">
+                                <div class="card shadow-sm">
+                                    <a asp-controller="Anuncio" asp-action="Detail" asp-route-id="@item.Id" style="text-decoration:none; color:gray;">
+                                        <img src="@item.Imagenes.FirstOrDefault()" class="img-product-size bd-placeholder-img card-img-top " />
+                                        <div class="card-body">
+                                            <h3>@item.Nombre</h3>
+                                            <div class="d-flex justify-content-between">
+                                                <p class="card-text">@item.Descripcion</p>
+                                                <small class="fw-bold">@item.Categoria</small>
+                                            </div>
+                                            <div class="d-flex justify-content-between">
+                                                <small class="fw-bold">$@item.Precio</small>
+                                                <small class="fw-bold">Publicado por @item.CreatedBy</small>
+
+                                            </div>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                    }
+                }
+                else
+                {
+                    <h1>No se encontraron articulos</h1>
+
+                }
             </div>
         </div>
+    </div>
+</div>

@@ -18,54 +18,61 @@
             }
             else
             {
-                    <form method="post" enctype="multipart/form-data" asp-controller="Anuncio" asp-action="@(editMode ? "Create" : "Edit")">
+                 <form method="post" enctype="multipart/form-data" asp-controller="Anuncio" asp-action="@(editMode ? "Create" : "Edit")">
 
+                    <div class="mb-3">
+                        <label asp-for="Nombre" class="form-label">Nombre: </label>
+                        <input asp-for="Nombre" class="form-control">
+                        <span asp-validation-for="Nombre" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="Descripcion" class="form-label">Descripcion: </label>
+                        <textarea asp-for="Descripcion" class="form-control" style=" max-height: 150px;"></textarea>
+                        <span asp-validation-for="Descripcion" class="text-danger"></span>
+                    </div>
+                    @if(editMode)
+                    {
                         <div class="mb-3">
-                            <label asp-for="Nombre" class="form-label">Nombre: </label>
-                            <input asp-for="Nombre" class="form-control">
-                            <span asp-validation-for="Nombre" class="text-danger"></span>
+                            <label asp-for="Files" class="form-label">Imagenes del anuncio: </label>
+                            <input required asp-for="Files" class="form-control" multiple maxlength=4>
                         </div>
-                        <div class="mb-3">
-                            <label asp-for="Descripcion" class="form-label">Descripcion: </label>
-                            <textarea asp-for="Descripcion" class="form-control"></textarea>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="File" class="form-label">Imagenes del anuncio: </label>
-                            @if (editMode)
-                            {
-                                <input required asp-for="File" class="form-control">
-                                <input asp-for="File1" class="form-control">
-                                <input asp-for="File2" class="form-control">
-                                <input asp-for="File3" class="form-control">
+                    }
+                    else
+                    {
+                 <div class="mb-3 row" >
+                     <div class="mb-3 row" id="ImgContainer" >
+                         @foreach (string imagen in Model.Imagenes)
+                         {
+                             <div class="col-4 gap-1 mt-2 imgEdit">
+                                 <img id="NewImg" src="@imagen" class="img-product-size bd-placeholder-img card-img-top" style="width:150px; height:100px;" />
+                             </div>
+                         }
+                     </div>
+                    <div class="labelInputImg mt-2 d-flex justify-content-around flex-md-wrap">
+                        <input asp-for="Files" class="form-control inputImg" multiple maxlength=4 onchange="ShowImage(this)" />
+                        <label asp-for="Files" class="form-label " id="Img">Eligir una imagen</label>
+                    </div>
+                 </div>
 
-                            }
-                            else
-                            {
-                                <input asp-for="File" class="form-control">
-                                <input asp-for="File1" class="form-control">
-                                <input asp-for="File2" class="form-control">
-                                <input asp-for="File3" class="form-control">
+                    }
+                    <div class="mb-3">
+                        <label asp-for="Precio" class="form-label">Precio: </label>
+                        <input type="number" step="any" asp-for="Precio" class="form-control" />
+                        <span asp-validation-for="Precio" class="text-danger"></span>
+                    </div>
+                    <div class="mb-3">
+                        <label asp-for="CategoriaId" class="form-label">Categoria: </label>
+                        <select asp-for="CategoriaId" asp-items="@(new SelectList(Model.Categorias, "Id", "Nombre"))" class="form-select">
+                            <option value="0">Seleccione una opcion</option>
+                        </select>
+                        <span asp-validation-for="CategoriaId" class="text-danger"></span>
+                    </div>
 
-                            }
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="Precio" class="form-label">Precio: </label>
-                            <input type="number" step="any" asp-for="Precio" class="form-control">
-                            <span asp-validation-for="Precio" class="text-danger"></span>
-                        </div>
-                        <div class="mb-3">
-                            <label asp-for="CategoriaId" class="form-label">Categoria: </label>
-                            <select asp-for="CategoriaId" asp-items="@(new SelectList(Model.Categorias, "Id", "Nombre"))" class="form-select">
-                                <option value="0">Seleccione una opcion</option>
-                            </select>
-                            <span asp-validation-for="CategoriaId" class="text-danger"></span>
-                        </div>
+                    <input type="hidden" asp-for="Id" />
 
-                        <input type="hidden" asp-for="Id" />
-
-                        <button type="submit" class="btn btn-primary">Guardar</button>
-                        <a asp-controller="Anuncio" asp-action="Index" class="btn btn-warning">Volver atras</a>
-                    </form>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                    <a asp-controller="Anuncio" asp-action="Index" class="btn btn-warning">Volver atras</a>
+                </form>
             }
     </div>
 </div>

@@ -10,7 +10,6 @@ namespace E_Market.Core.Domain.Entities
         public string Password { get; set; }
         public string  Email { get; set; }
         public string Telefono { get; set; }
-        public int AnuncioId { get; set; }
         public ICollection<Anuncio> Anuncios { get; set; }
     }
 }

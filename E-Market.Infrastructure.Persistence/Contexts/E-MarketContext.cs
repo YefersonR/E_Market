@@ -18,6 +18,8 @@ namespace E_Market.Infrastructure.Persistence.Contexts
         public DbSet<Anuncio> Anuncios { get; set; }
         public DbSet<Categoria> Categorias { get; set; }
         public DbSet<User> Users{ get; set; }
+        public DbSet<Imagen> Imagenes { get; set; }
+
 
         public E_MarketContext(DbContextOptions<E_MarketContext> options, IHttpContextAccessor httpContext) : base(options)
         {
@@ -34,11 +36,17 @@ namespace E_Market.Infrastructure.Persistence.Contexts
                 {
                     case EntityState.Added:
                         entry.Entity.Created = DateTime.Now;
-                        entry.Entity.CreatedBy = "";
+                        if(_userVM != null)
+                        {
+                            entry.Entity.CreatedBy = _userVM.UserName;
+                        }
                         break;
                     case EntityState.Modified:
                         entry.Entity.LastModified = DateTime.Now;
-                        entry.Entity.LastModifiedBy = "";
+                        if (_userVM != null)
+                        {
+                            entry.Entity.LastModifiedBy = _userVM.UserName;
+                        }
                         break;
                 }
             }
@@ -56,19 +64,26 @@ namespace E_Market.Infrastructure.Persistence.Contexts
             modelBuilder.Entity<Anuncio>().HasKey(anuncio => anuncio.Id);
             modelBuilder.Entity<Categoria>().HasKey(categoria => categoria.Id);
             modelBuilder.Entity<User>().HasKey(user=> user.Id);
+            modelBuilder.Entity<Imagen>().HasKey(img => img.Id);
 
             #endregion
             #region Relationships
             modelBuilder.Entity<Categoria>()
-                .HasMany<Anuncio>(anuncio => anuncio.Anuncios)
+                .HasMany(anuncio => anuncio.Anuncios)
                 .WithOne(anuncio => anuncio.Categoria)
                 .HasForeignKey(anuncio => anuncio.CategoriaId)
                 .OnDelete(DeleteBehavior.Cascade);
             
             modelBuilder.Entity<User>()
-                .HasMany<Anuncio>(user => user.Anuncios)
+                .HasMany(user => user.Anuncios)
                 .WithOne(user => user.Usuario)
                 .HasForeignKey(s => s.UserId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            modelBuilder.Entity<Anuncio>()
+                .HasMany(anuncio=> anuncio.Imagenes)
+                .WithOne(img => img.Anuncio)
+                .HasForeignKey(s => s.IdAnuncio)
                 .OnDelete(DeleteBehavior.Cascade);
 
 
@@ -113,6 +128,15 @@ namespace E_Market.Infrastructure.Persistence.Contexts
             modelBuilder.Entity<User>()
                  .Property(user => user.Password)
                   .IsRequired();
+            #endregion
+            #region Imagenes
+            modelBuilder.Entity<Imagen>()
+                 .Property(img => img.UrlImg)
+                  .IsRequired();
+            modelBuilder.Entity<Imagen>()
+                 .Property(img => img.UrlImg)
+                  .IsRequired();
+
             #endregion
             #endregion
         }

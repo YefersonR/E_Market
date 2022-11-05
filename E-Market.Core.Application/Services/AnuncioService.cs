@@ -1,5 +1,4 @@
-﻿using E_Market.Core.Application.Interfaces;
-using E_Market.Core.Application.Interfaces.Services;
+﻿using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.ViewModels;
 using E_Market.Core.Application.ViewModels.Anuncio;
 using E_Market.Core.Domain.Entities;
@@ -17,12 +16,14 @@ namespace E_Market.Core.Application.Services
     {
         public readonly IAnuncioRepository _anuncioRepository;
         public readonly IUserRepository _userRepository;
+        public readonly IImagenRepository _imagenRepository;
         public readonly IHttpContextAccessor _ContextHttp;
         public readonly UserViewModel _userVM;
-        public AnuncioService(IAnuncioRepository anuncioRepository,IUserRepository userRepository, IHttpContextAccessor ContextHttp)
+        public AnuncioService(IAnuncioRepository anuncioRepository,IUserRepository userRepository, IImagenRepository imagenRepository, IHttpContextAccessor ContextHttp)
         {
             _anuncioRepository = anuncioRepository;
             _userRepository = userRepository;
+            _imagenRepository = imagenRepository;
             _ContextHttp = ContextHttp;
             _userVM = _ContextHttp.HttpContext.Session.Get<UserViewModel>("usuario");
 
@@ -33,10 +34,8 @@ namespace E_Market.Core.Application.Services
             Anuncio anuncio = new();
             anuncio.Nombre = vm.Nombre;
             anuncio.Precio = vm.Precio;
-            anuncio.Imagen = vm.Imagen;
-            anuncio.Imagen1 = vm.Imagen1;
-            anuncio.Imagen2 = vm.Imagen2;
-            anuncio.Imagen3 = vm.Imagen3;
+
+            //_imagenRepository.AddAsync(vm.);
             anuncio.Descripcion = vm.Descripcion;
             anuncio.CategoriaId = vm.CategoriaId;
             anuncio.UserId = _userVM.Id;
@@ -46,10 +45,6 @@ namespace E_Market.Core.Application.Services
             anuncioViewModel.Id = anuncio.Id;
             anuncioViewModel.Nombre = anuncio.Nombre;
             anuncioViewModel.Precio = anuncio.Precio;
-            anuncioViewModel.Imagen = anuncio.Imagen;
-            anuncioViewModel.Imagen1 = anuncio.Imagen1;
-            anuncioViewModel.Imagen2 = anuncio.Imagen2;
-            anuncioViewModel.Imagen3 = anuncio.Imagen3;
             anuncioViewModel.Descripcion = anuncio.Descripcion;
             anuncioViewModel.CategoriaId = anuncio.CategoriaId;
             return anuncioViewModel;
@@ -61,10 +56,6 @@ namespace E_Market.Core.Application.Services
             anuncio.Id = vm.Id;
             anuncio.Nombre = vm.Nombre;
             anuncio.Precio = vm.Precio;
-            anuncio.Imagen = vm.Imagen;
-            anuncio.Imagen1 = vm.Imagen1;
-            anuncio.Imagen2 = vm.Imagen2;
-            anuncio.Imagen3 = vm.Imagen3;
             anuncio.Descripcion = vm.Descripcion;
             anuncio.CategoriaId = vm.CategoriaId;
 
@@ -81,61 +72,55 @@ namespace E_Market.Core.Application.Services
         public async Task<SaveAnuncioViewModel> GetByIdSaveViewModel(int id)
         {
             var anuncio = await _anuncioRepository.GetByIdAsync(id);
+            List<Imagen> imagen = await _imagenRepository.GetAllAsync();
             SaveAnuncioViewModel vm = new();
             vm.Id = anuncio.Id;
             vm.Nombre = anuncio.Nombre;
             vm.Descripcion = anuncio.Descripcion;
             vm.Precio = anuncio.Precio;
-            vm.Imagen = anuncio.Imagen;
-            vm.Imagen1 = anuncio.Imagen1;
-            vm.Imagen2 = anuncio.Imagen2;
-            vm.Imagen3 = anuncio.Imagen3;
             vm.CategoriaId = anuncio.CategoriaId;
             vm.Created = anuncio.Created;
             vm.CreatedBy = anuncio.CreatedBy;
             var user = await _userRepository.GetByIdAsync(anuncio.UserId);
             vm.Telefono = user.Telefono;
+            vm.Imagenes = imagen.Where(img => img.IdAnuncio == anuncio.Id).Select(img => img.UrlImg).ToList();
 
             return vm;
         }
         public async Task<List<AnuncioViewModel>> GetAllUserViewModel()
         {
             var list = await _anuncioRepository.GetAllWithIncludeAsync(new List<string> { "Categoria" });
+            List<Imagen> imagen = await _imagenRepository.GetAllAsync();
+
             return list.Where(anuncio => anuncio.UserId == _userVM.Id).Select(anuncio => new AnuncioViewModel
             {
                 Id = anuncio.Id,
                 Nombre = anuncio.Nombre,
                 Descripcion = anuncio.Descripcion,
                 Precio = anuncio.Precio,
-                Imagen = anuncio.Imagen,
-                Imagen1 = anuncio.Imagen1,
-                Imagen2 = anuncio.Imagen2,
-                Imagen3 = anuncio.Imagen3,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
-                CreatedBy = anuncio.CreatedBy
+                CreatedBy = anuncio.CreatedBy,
+                Imagenes = imagen.Where(img => img.IdAnuncio == anuncio.Id).Select(img => img.UrlImg).ToList()
 
             }).ToList();
         }
         public async Task<List<AnuncioViewModel>> GetAllViewModel()
         {
             var list = await _anuncioRepository.GetAllWithIncludeAsync(new List<string> { "Categoria" });
+            List<Imagen> imagen = await _imagenRepository.GetAllAsync();
             return list.Where(anuncio => anuncio.UserId != _userVM.Id).Select(anuncio => new AnuncioViewModel
             {
                 Id = anuncio.Id,
                 Nombre = anuncio.Nombre,
                 Descripcion = anuncio.Descripcion,
-                Precio = anuncio.Precio,
-                Imagen = anuncio.Imagen,
-                Imagen1 = anuncio.Imagen1,
-                Imagen2 = anuncio.Imagen2,
-                Imagen3 = anuncio.Imagen3,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
                 CreatedBy = anuncio.CreatedBy,
-                
+                Imagenes = imagen.Where(img => img.IdAnuncio == anuncio.Id).Select(img => img.UrlImg).ToList()
+
 
 
             }).ToList();
@@ -144,21 +129,19 @@ namespace E_Market.Core.Application.Services
         public async Task<List<AnuncioViewModel>> GetAllViewModelWithFilter(FilterAnuncioViewModel filter)
         {
             var list = await _anuncioRepository.GetAllWithIncludeAsync(new List<string> { "Categoria" });
+            List<Imagen> imagen = await _imagenRepository.GetAllAsync();
             var listVM = list.Where(anuncio => anuncio.UserId != _userVM.Id).Select(anuncio => new AnuncioViewModel
             {
                 Id = anuncio.Id,
                 Nombre = anuncio.Nombre,
                 Descripcion = anuncio.Descripcion,
                 Precio = anuncio.Precio,
-                Imagen = anuncio.Imagen,
-                Imagen1 = anuncio.Imagen1,
-                Imagen2 = anuncio.Imagen2,
-                Imagen3 = anuncio.Imagen3,
                 Categoria = anuncio.Categoria.Nombre,
                 CategoriaId = anuncio.Categoria.Id,
                 Created = anuncio.Created,
-                CreatedBy = anuncio.CreatedBy
-                
+                CreatedBy = anuncio.CreatedBy,
+                Imagenes = imagen.Where(img => img.IdAnuncio == anuncio.Id).Select(img => img.UrlImg).ToList()
+
 
             })  .ToList();
             if (filter.CategoriaId != null)
@@ -166,9 +149,11 @@ namespace E_Market.Core.Application.Services
                 List<AnuncioViewModel> lista = new();
                 foreach(int id in filter.CategoriaId)
                 {
-                   
-                    lista.Add(listVM.FirstOrDefault(anuncio => anuncio.CategoriaId == id));
-                   
+                    var items = listVM.Where(anuncio => anuncio.CategoriaId == id);
+                    foreach (AnuncioViewModel item in items)
+                    {
+                        lista.Add(item);  
+                    }
                 }
 
                 listVM = lista.Count() != 0 ? lista : listVM;

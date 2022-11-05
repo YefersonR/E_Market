@@ -1,5 +1,6 @@
 ﻿using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.ViewModels;
+using E_Market.Core.Application.ViewModels.Home;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 using WebApp.Market.Middleware;
@@ -25,8 +26,10 @@ namespace Market.Controllers
                 return RedirectToRoute(new { controller = "Usuario", action = "Index" });
             }
 
-            ViewBag.Categorias = await _categotiaService.GetAllViewModel(); 
-            return View(await _anuncioService.GetAllViewModelWithFilter(filterAnuncio));
+            HomeItemsViewModel homeItem = new HomeItemsViewModel();
+            homeItem.Categorias = await _categotiaService.GetAllViewModel();
+            homeItem.Anuncios = await _anuncioService.GetAllViewModelWithFilter(filterAnuncio);
+            return View(homeItem);
         }
     }
 }
