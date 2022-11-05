@@ -1,4 +1,4 @@
-﻿using E_Market.Core.Application.Interfaces;
+﻿using E_Market.Core.Application.Interfaces.Repositories;
 using E_Market.Infrastructure.Persistence.Contexts;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;

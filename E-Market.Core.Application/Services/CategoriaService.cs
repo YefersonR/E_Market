@@ -1,4 +1,4 @@
-﻿using E_Market.Core.Application.Interfaces;
+﻿using E_Market.Core.Application.Interfaces.Repositories;
 using E_Market.Core.Application.Interfaces.Services;
 using E_Market.Core.Application.ViewModels.Categoria;
 using E_Market.Core.Domain.Entities;
@@ -74,7 +74,7 @@ namespace E_Market.Core.Application.Services
 
         public async Task<List<CategoriaViewModel>> GetAllViewModel()
         {
-            var list = await _categoriaRepository.GetAllWithIncludeAsync(new List<string> { "Anuncios",});
+            var list = await _categoriaRepository.GetAllWithIncludeAsync(new List<string> { "Anuncios"});
             return list.Select(categoria => new CategoriaViewModel
             {
                 Id = categoria.Id,

@@ -26,7 +26,10 @@ namespace E_Market.Infrastructure.Persistence
             service.AddTransient<IAnuncioRepository, AnuncioRepository>();
             service.AddTransient<ICategoriaRepository, CategoriaRepository>();
             service.AddTransient<IUserRepository, UserRepository>();
+            service.AddTransient<IImagenRepository, ImagenRepository>();
             
+
+
         }
     }
 }

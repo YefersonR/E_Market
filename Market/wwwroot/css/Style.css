@@ -1,0 +1,27 @@
+﻿body {
+}
+
+.inputImg{
+    width:0.1px;
+    height:0.1px;
+    opacity:0;
+    overflow:hidden;
+    position:absolute;
+    z-index: -1;
+    background-color:red;
+}
+.labelInputImg {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.inputImg + label {
+    font-size: 1em;
+    font-weight: 700;
+    padding: 5px;
+    display: inline-block;
+    border: none;
+}
+.inputImg + label {
+    cursor: pointer;
+}

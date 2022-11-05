@@ -17,10 +17,8 @@ namespace E_Market.Core.Application.ViewModels.Anuncio
         [DataType(DataType.Text)]
         public string Descripcion { get; set; }
 
-        public string Imagen { get; set; }
-        public string Imagen1 { get; set; }
-        public string Imagen2 { get; set; }
-        public string Imagen3 { get; set; }
+        public List<string> Imagenes { get; set; }
+
 
         [Required(ErrorMessage = "Debe colocar un precio")]
         [DataType(DataType.Currency)]
@@ -29,19 +27,10 @@ namespace E_Market.Core.Application.ViewModels.Anuncio
         [Range(1, int.MaxValue,ErrorMessage="Debe colocar una categoria valida")]
         public int CategoriaId { get; set; }
         public string Telefono { get; set; }
-
-        public List<CategoriaViewModel> Categorias { get; set; } 
-
-        [DataType(DataType.Upload)]
-        public IFormFile File { get; set; }
+        public List<CategoriaViewModel> Categorias { get; set; }
 
         [DataType(DataType.Upload)]
-        public IFormFile File1 { get; set; }
+        public List<IFormFile> Files { get; set; }
 
-        [DataType(DataType.Upload)]
-        public IFormFile File2 { get; set; }
-
-        [DataType(DataType.Upload)]
-        public IFormFile File3 { get; set; }
     }
 }
